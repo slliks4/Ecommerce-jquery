@@ -1,0 +1,82 @@
+{% extends 'base_secure_page.html' %}
+{% load static %}
+{% block title %}
+    payment
+{% endblock %}
+{% block content %}
+    <section class="payment">
+        <div>
+            <div>
+                <ul>
+                    <li>contact :</li>
+                    <li>ship to :</li>
+                    <li>method :</li>
+                </ul>
+                <ul>
+                    <li>skillsnwokolo@gmail.com</li>
+                    <li>faldkjfadf d fakdfkdfa dfadfasdff</li>
+                    <li>International Shipping · $20.00</li>
+                </ul>
+                <ul>
+                    <li><a href="">change</a></li>
+                    <li><a href="">change</a></li>
+                    <li><a href="">change</a></li>
+                </ul>
+            </div>
+            <form action="{% url 'order_payment' %}" method="POST">
+                {% csrf_token %}
+                <h2>
+                    payment
+                </h2>
+                <small>
+                    All transactions are secure and encrypted.
+                </small>
+                <div>
+    
+                </div>
+                <h2>
+                    billing address
+                </h2>
+                <small>
+                    Select the address that matches your card or payment method.
+                </small>
+                {{form.billing_address}}
+                <h2>remember me</h2>
+                {{form.remember_me}}
+                <label for="remember">Save my information for a faster checkout</label>
+                <div>
+                    <a href="checkout.html">return to shipping</a>
+                    <button type="submit">paynow</button>
+                </div>
+            </form>
+        </div>
+        <div>
+            <div>
+                {% for order_item in order_items %}
+                    <div>
+                        <img src="" alt="">
+                        <div class="quantity">{{order_item.quantity}}</div>
+                        <p>{{order_item.products.name}} and {{order_item.products.category}}</p>
+                        <p>$ {{order_item.products.price|floatformat:2}}</p>
+                    </div>
+                {% endfor %}
+            </div>
+            <form action="">
+                <input type="text" name="discount" id="" placeholder="discount code">
+                <button type="submit">apply</button>
+            </form>
+            <div>
+                <ul>
+                    <li>subtotal:</li>
+                    <li>shipping:</li>
+                    <li>total:</li>
+                </ul>
+                <ul>
+                    <li>$ {{order.get_total_price|floatformat:2}}</li>
+                    <li>$0.00</li>
+                    <li>$ {{order.get_total_price|floatformat:2}}</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+{% endblock %}

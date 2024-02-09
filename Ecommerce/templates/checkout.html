@@ -1,0 +1,86 @@
+{% extends 'base_secure_page.html' %}
+{% load static %}
+{% block title %}
+    checkout
+{% endblock %}
+{% block content %}
+    <section class="checkout">
+        <div>
+            <small>{% if order_items %}express checkout{% endif %}</small>
+            <div>
+                {% if order_items %}
+                <a href="">shop pay</a>
+                <a href="">G pay</a>
+                {% endif %}
+            </div>
+            <div>{% if order_items %}or {% endif %}</div>
+            <div>
+                <h2>contact</h2>
+                <form action="{% url 'order_checkout' %}" method="POST">
+                    {% csrf_token %}
+                    {{form.email}}
+                    {{form.email_news}}
+                    <label for="checkbox">Email me with news and offers</label>
+                    <h2>
+                        delivery method
+                    </h2>
+                    {{form.delivery_option}}
+                    <h2>
+                        shipping address
+                    </h2>
+                    {{form.country}}
+                    {{form.first_name}}
+                    {{form.last_name}}
+                    {{form.address}}
+                    {{form.appartment}}
+                    {{form.city}}
+                    <select name="state" id="">
+                        <option value="">state</option>
+                        <option value="">lagos</option>
+                    </select>
+                    <input type="text" name="postal_code" id="" placeholder="postal code">
+                    <div>
+                        <a href="{% url 'customer_cart' %}">return to cart</a>
+                        {% if order_items %}
+                            <button type="submit">continue to payment</button>
+                        {% endif %}
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div>
+            <div>
+                {% if order_items %}
+                    {% for order_item in order_items %}
+                    <div>
+                        <img src="" alt="">
+                        <div class="quantity">{{order_item.quantity}}</div>
+                        <p>{{order_item.products.name}} and {{order_item.products.category}}</p>
+                        <p>$ {{order_item.products.price|floatformat:2}}</p>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <h3>No items selected</h3>
+                    <br>
+                    <a href="{% url 'customer_cart' %}">return to cart</a>
+                {% endif %}
+            </div>
+            <form action="">
+                <input type="text" name="discount" id="" placeholder="discount code">
+                <button type="submit">apply</button>
+            </form>
+            <div>
+                <ul>
+                    <li>subtotal:</li>
+                    <li>shipping:</li>
+                    <li>total:</li>
+                </ul>
+                <ul>
+                    <li>$ {{order.get_total_price|floatformat:2}}</li>
+                    <li>$0.00</li>
+                    <li>$ {{order.get_total_price|floatformat:2}}</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+{% endblock %}

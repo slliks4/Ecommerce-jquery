@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+    cart
+{% endblock %}
+{% block content %}
+    <section class="order_history">
+        <ul>
+            {% if order_items %}
+            {% for order_item in order_items %}
+                <li>                    
+                    {{order_item.order.customer.user.username}}  ||  {{order_item.product.name}} ||   {% if order_item.order.complete == True %} completed {% else %} pending {% endif %}  ||  {{ order_item.date_added }}
+                </li>
+                <br><br>
+            {% endfor %}
+            {% else %}
+            <h1>no history</h1>
+            {% endif %}
+        </ul>
+    </section>
+{% endblock %}

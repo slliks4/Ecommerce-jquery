@@ -1,0 +1,79 @@
+{% extends 'base_secure_page.html' %}
+{% load static %}
+{% block title %}
+    checkout
+{% endblock %}
+{% block content %}
+    <section class="checkout">
+        <div>
+            <small>express checkout</small>
+            <div>
+                <a href="">shop pay</a>
+                <a href="">G pay</a>
+            </div>
+            <div>or</div>
+            <div>
+                <h2>contact</h2>
+                <form action="">
+                    <input type="email" name="" id="" placeholder="enter your email">
+                    <input type="checkbox" name="checkbox" id="checkbox" >
+                    <label for="checkbox">Email me with news and offers</label>
+                    <h2>
+                        delivery method
+                    </h2>
+                    <input type="radio" name="delivery" value="delivery" id="delivery">
+                    <label for="delivery">ship</label>
+                    <input type="radio" name="delivery" value="delivery" id="delivery">
+                    <label for="delivery">pick up</label>
+                    <h2>
+                        shipping address
+                    </h2>
+                    <select name="country" id="">
+                        <option value="">country</option>
+                        <option value="">lagos</option>
+                    </select>
+                    <input type="text" name="first_name" id="" placeholder="first name">
+                    <input type="text" name="last_name" id="" placeholder="last name">
+                    <input type="text" name="address" id="" placeholder="address">
+                    <input type="text" name="appartment" id="" placeholder="appartment, suite, e.t.c ">
+                    <input type="text" name="city" id="" placeholder="city">
+                    <select name="state" id="">
+                        <option value="">state</option>
+                        <option value="">lagos</option>
+                    </select>
+                    <input type="text" name="postal_code" id="" placeholder="postal code">
+                    <div>
+                        <a href="">return to cart</a>
+                        <button type="submit">continue to payment</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div>
+            <div>
+                <div>
+                    <img src="" alt="">
+                    <div class="quantity">1</div>
+                    <p>{{product.name}} and {{product.category}}</p>
+                    <p>{{product.price|floatformat:2}}</p>
+                </div>
+            </div>
+            <form action="">
+                <input type="text" name="discount" id="" placeholder="discount code">
+                <button type="submit">apply</button>
+            </form>
+            <div>
+                <ul>
+                    <li>subtotal:</li>
+                    <li>shipping:</li>
+                    <li>total:</li>
+                </ul>
+                <ul>
+                    <li>$108.00</li>
+                    <li>$108.00</li>
+                    <li>$108.00</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+{% endblock %}

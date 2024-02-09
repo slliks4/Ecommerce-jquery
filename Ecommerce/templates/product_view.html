@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+    /product_view
+{% endblock %}
+{% block content %}
+    <section class="product_view">
+        <span class="header">
+            <a href="{% url 'home' %}">home</a>
+            <p>{{product.category}}</p>
+            <p>{{product.name}}</p>
+        </span>
+        <div class="flex" >
+            <div>
+                <div class="image">
+                    {% if product.image %}
+                        <img src="{{product.image.url}}" alt="">
+                    {% endif %}
+                </div>
+                <div class="flex_image">
+                    <
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    >
+                </div>
+            </div>
+            <div>
+                <h2>{{product.category}} - {{product.name}}</h2>
+                <small>
+                    no reviews
+                </small>
+                <p>
+                    {{product.description}}
+                </p>
+                <ul>
+                    <li>category : {{product.category}}</li>
+                    <li>color : black</li>
+                </ul>
+                <h3>
+                    $ {{product.price|floatformat:2}}
+                </h3>
+                <span class="prompt">
+                    please hurry! only 9 left in stock
+                </span>
+                <p>
+                    subtotal: $ {{product.price|floatformat:2}}
+                </p>  
+                {% if is_order_complete %}
+                <br>
+                <p>Item already in cart</p>
+                <br>
+                {% else %}  
+                <a href="{% url 'add_to_cart' product.id %}" class="colored">add cart</a>
+                {% endif %}
+                <input type="checkbox" name="checkbox" id="checkbox">
+                <label for="checkbox">i agree with the terms and conditions</label>
+                <a href="{% url 'buy_now' product.id %}">buy now</a>
+            </div>
+        </div>
+        <div class="content">
+            <h1> descriptions and other informations</h1>
+        </div>
+    </section>
+{% endblock %}

@@ -1,0 +1,103 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+    cart
+{% endblock %}
+{% block content %}
+    <section class="cart">
+        <div>
+            <h1>shopping cart</h1>
+            <span class="header">  
+                <form action="{% url 'select_all' order.id %}" method="POST">
+                    {% csrf_token %}
+                    {% if order.order_item.all %}
+                        {% for order_item in order_items|slice:"1" %}
+                            {% if order_item.selected == True %}
+                            <button name="select_all" value="unselect" id="select" >unselect all</button>
+                            {% else %}
+                            <button name="select_all" value="select" id="select" >select all</button>
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                </form>
+                <h2>price</h2>
+            </span>
+            {% if order_items %}
+            {% for order_item in order_items %}
+                <div>
+                    <div>
+                        <form action="{% url 'edit_order_items' order_item.id %}" method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="selected" value="{% if order_item.selected %}unselect{% else %}select{% endif %}">
+                            {% if order_item.selected %}
+                                <button id="select">. .</button>
+                            {% else %}
+                                <button id="unselect">. .</button>
+                            {% endif %}
+                        </form>                        
+                        {% if order_item.products.image %}
+                            <div class="img">
+                                <img src="{{order_item.products.image.url}}" alt="">
+                            </div>
+                            {% else %}
+                            <div class="img">
+                                
+                            </div>
+                        {% endif %}
+                        <div class="text">
+                            <h1>
+                                <a href="{% url 'product_view' order_item.products.id order_item.products.category order_item.products.name %}">
+                                    {{order_item.products.name}}
+                                </a>
+                            </h1>
+                            <small>
+                                in stock
+                            </small>
+                            <ul>
+                                <li>price : $ {{order_item.products.price|floatformat:2}}</li>
+                                <li>category : {{order_item.products.category}}</li>
+                                <li>color : black</li>
+                            </ul>
+                            <div>
+                                <form id="form" action="{% url 'edit_order_items' order_item.id %}" method="POST">
+                                    {% csrf_token %}
+                                    quantity: 
+                                    <button id="remove_cart" name="change_quantity" value="remove_cart" >subtract</button>
+                                    {{ order_item.quantity }}
+                                    <button id="add_cart" name="change_quantity" value="add_cart" >add</button>
+                                </form>
+                                <a href="{% url 'order_item_delete' order_item.id %}">delete</a>
+                                <a href="">save for later</a>
+                                <a href="">compare with similar</a>
+                                <a href="">share</a>
+                            </div>
+                        </div>
+                        <div class="price">
+                            <h3>$ {{order_item.get_total|floatformat:2}}</h3>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        <div>
+            <h3>subtotal ({{order.get_cart_items_selected}} items): $ {{order.get_total_price}}</h3></h3>
+            <a href="{% url 'order_checkout' %}">proceed to checkout</a>
+        </div>
+        {% else %}
+        <div>
+            <div>
+                <h4>
+                    No item in cart 
+                    <br>
+                    <br>                      
+                    <a href="{% url 'home' %}"> Continue shopping </a>
+                </h4>
+            </div>
+        </div>
+        {% endif %}
+    </section>
+    {% block script %}
+    
+    <script src="{% static '/script/cart.js' %}"></script>
+    {% endblock %}
+{% endblock %}

@@ -1,0 +1,55 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        skills_shopping/
+        {% block title %}
+        {% endblock %}
+    </title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+    <header>
+        <h1>
+            <a href="{% url 'home' %}">
+                skills shopping
+            </a>
+        </h1>
+        <form action="{% url 'search_products' %}" method="POST">
+            {% csrf_token %}
+            <input type="search" name="search_product" id="" placeholder="search product">
+            <button type="submit">search</button>
+        </form>
+        <ul>
+            <li>
+                <p>
+                    {% if request.user.is_authenticated %} 
+                        hello {{ request.user.first_name }} ||
+                        <a href="{% url 'logout' %}">log out</a>
+                    {% else %}
+                        hello guest ||
+                        <a href="{% url 'login' %}">login</a>
+                    {% endif %}
+                </p>
+            </li>
+            <li>
+                <a href="{% url 'order_history' %}">returns & orders</a>
+            </li>
+            <li>
+                {{order.get_cart_items}} <a href="{% url 'customer_cart' %}"> <i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
+            </li>
+        </ul>
+    </header>
+    {% block content %}
+    {% endblock %}
+    <footer>
+
+    </footer>
+    {% block script %}
+    {% endblock %}
+</body>
+</html>

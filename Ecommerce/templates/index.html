@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+    /
+{% endblock %}
+{% block content %}
+    <section class="home">
+        <div>
+            <h1> this is the home page</h1>
+        </div>
+        <div>
+            <h1> featured product </h1>
+            <p>Cosmo de milancelos</p>
+            <div class="flex">
+                {% for product in products %}
+                    <div>
+                        <div class="img">
+                            {% if product.image %}
+                                <img src="{{product.image.url}}" alt="">
+                            {% endif %}
+                        </div>
+                        <div class="text">
+                            <small>{{product.category}}</small>
+                            <h2>
+                                <a href="{% url 'product_view' product.id product.category product.name %}">{{product.name}}</a>
+                            </h2>
+                            <h3>$ {{product.price|floatformat:2}}</h3>
+                            <div>
+                                <a href="{% url 'add_to_cart' product.id %}">add to cart</i></a>
+                                <a href=""><i class="fa fa-heart-o" aria-hidden="true"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div>
+            <h1>this is another content</h1>
+        </div>
+    </section>
+{% endblock %}
