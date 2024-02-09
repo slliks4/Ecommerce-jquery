@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+    cart
+{% endblock %}
+{% block content %}
+    <section class="cart">
+        <div>
+            <h1>shopping cart</h1>
+            <span class="header">  
+                <form action="{% url 'select_all' %}" method="POST">
+                    {% csrf_token %}
+                    {% if order_items.all %}
+                        {% for order_item in order_items|slice:"1" %}
+                            {% if order_item.selected == True %}
+                            <button name="select_all" value="unselect" id="select" >unselect all</button>
+                            {% else %}
+                            <button name="select_all" value="select" id="select" >select all</button>
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                </form>
+                <h2>price</h2>
+            </span>
+            {% for order_item in order_items %}
+                <div class="order_item">
+                    <div>
+                        <form action="" class="item_select" method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="order_item_id" value="{{order_item.id}}">
+                            <input type="hidden" name="selected" value="{% if order_item.selected %}unselect{% else %}select{% endif %}">
+                            {% if order_item.selected %}
+                                <button class="select selected" id="select" value="selected">. .</button>
+                            {% else %}
+                                <button class="select unselected" id="unselect" value="unselected">. .</button>
+                            {% endif %}
+                        </form>                        
+                        <div class="img"></div>
+                        <div class="text">
+                            <h1>
+                                <a href="{% url 'product_view' order_item.product.id %}">
+                                    {{ order_item.product.name }}
+                                </a>
+                            </h1>
+                            <small>
+                                in stock
+                            </small>
+                            <ul>
+                                <li>category : item category</li>
+                                <li>color : black</li>
+                                <li>price : {{order_item.product.price}}</li>
+                            </ul>
+                            <div>
+                                <form action="" method="POST" class="change_qty_form">
+                                    {% csrf_token %}
+                                    <div>
+                                        <input type="hidden" name="order_item_id" value="{{ order_item.id }}">
+                                        <button class="reduce_qty">-</button>
+                                        <input type="text" name="quantity_val" class="quantity_val" value="{{ order_item.quantity }}" data-price="{{ order_item.product.price }}" disabled>
+                                        <button type="submit" class="add_qty">+</button>
+                                    </div>
+                                    <div class="div">
+                                        <button class="delete_order_item">delete</button>
+                                        <button type="button">save for later</button>
+                                        <button type="button">compare with similar</button>
+                                        <button type="button">share</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="price">
+                            <h3 class="product_price">$ {{ order_item.get_total|floatformat:2 }}</h3>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        <div>
+            <h3>subtotal ({{selected_items_count}} items): $500</h3>
+            <a href="{% url 'checkout' %}">proceed to checkout</a>
+        </div>
+    </section>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="{% static 'script/cart.js' %}"></script>
+{% endblock %}

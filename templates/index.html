@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+    /
+{% endblock %}
+{% block content %}
+    <section class="home">
+        <div>
+            <h1> this is the home page</h1>
+        </div>
+        <div>
+            <h1> featured product </h1>
+            <p>Cosmo de milancelos</p>
+            <div class="flex">
+                {% for product in products %}
+                <div>
+                    <div class="img">
+
+                    </div>
+                    <div class="text">
+                        <small>{{ product.category.name }}</small>
+                        <h2>
+                            <a href="{% url 'product_view' product.id %}">{{ product.name }}</a>
+                        </h2>
+                        <h3>$ {{ product.price|floatformat:2 }}</h3>
+                        <div class="Cart">
+                            {% csrf_token %}
+                            <input type="hidden" name="product_id" value="{{product.id}}" >
+                            <button class="add_to_cart">add to cart</button>
+                            <button><i class="fa fa-heart-o" aria-hidden="true"></i></button>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div>
+            <h1>this is another content</h1>
+        </div>
+    </section>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="{% static 'script/index.js' %}"></script>
+{% endblock %}
