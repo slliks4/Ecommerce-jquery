@@ -1,0 +1,29 @@
+# Customer
+    There are two types of customer, user and guest
+
+    # HOW IT WORKS
+    Once one visits the web app they automatically become a Customer with a default setting as guest
+
+    # Customer fields
+    - user: foriegn key ,Blank=true, null=true, ondelete=model.cascade
+    - uniqueId: unique 11 digit number | id | timestamp
+    - isGuest: default True (Meaning the customer is not registered or don't have an account)
+    - date created: automatic
+    - last edited: automatic
+    - time-zone: automatically generated via the user location (time zone)
+    - address: blank= True
+    - Phone number: blank= True
+    - profilePic: blank= True
+    - paymentOptions: many to many fields
+
+    # Users:
+    - isGuest in the Customer model will be False
+    - user model will be created, user field in the Customer = user created
+        # Fields required for the user model
+        - username: automatically filled by the uniqueId from the Customer
+        - firstName
+        - lastName
+        - email
+        - password 
+        - permissions
+        - important Dates 'last login, date joined'
