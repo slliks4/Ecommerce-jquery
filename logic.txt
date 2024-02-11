@@ -1,29 +1,57 @@
-# Customer
-    There are two types of customer, user and guest
-
-    # HOW IT WORKS
-    Once one visits the web app they automatically become a Customer with a default setting as guest
-
-    # Customer fields
-    - user: foriegn key ,Blank=true, null=true, ondelete=model.cascade
-    - uniqueId: unique 11 digit number | id | timestamp
-    - isGuest: default True (Meaning the customer is not registered or don't have an account)
-    - date created: automatic
-    - last edited: automatic
-    - time-zone: automatically generated via the user location (time zone)
-    - address: blank= True
-    - Phone number: blank= True
-    - profilePic: blank= True
-    - paymentOptions: many to many fields
-
-    # Users:
-    - isGuest in the Customer model will be False
-    - user model will be created, user field in the Customer = user created
+# Users:
+- isUser in the Customer model will be True
+- user model will be created, user field in the Customer = user created
         # Fields required for the user model
-        - username: automatically filled by the uniqueId from the Customer
+        - username: if isUser = True: automatically filled by the uniqueId from the Customer 
+                    else: model creating a user(e.g 'admin','customer')|unique 4 digit number|id| timestamp
         - firstName
         - lastName
         - email
         - password 
-        - permissions
+        - permissions: default = None
+        - group: default = Customer
         - important Dates 'last login, date joined'
+
+        # Note: no user can be created independently due to the fact it requires a parameter determining what role / model 
+
+    # Customer
+        There are two types of customer, user and guest
+
+        # HOW IT WORKS
+        Once one visits the web app they automatically become a Customer with a default setting as guest
+
+        # Customer fields
+        - user: foriegn key ,Blank=true, null=true, ondelete=model.cascade
+        - uniqueId: 'customer'|unique 4 digit number|id| timestamp
+        - isUser: default False (Meaning the customer is not a user or don't have an account)
+        - date created: automatic
+        - last edited: automatic
+        - time-zone: automatically generated via the user location (time zone)
+
+        required isUser
+        - address: blank= True
+        - Phone number: blank= True
+        - profilePic: blank= True
+        - paymentOptions: many to many fields
+        
+        if isUser == True: save required and give access to edit these field
+        else autoreset after each purchase and restrict access
+
+    # Admin 
+        calls the user function with a parameter 'admin'
+        - username: admin|unique 4 digit number|id| timestamp
+        ......
+        group : Admin
+
+    # Admin Page:
+        users with group 'admin'
+
+    # whole page:
+        all users 
+
+# Product
+    for the product we will have:
+    # category
+    # Discounted
+    # Special event
+    # Most searched
